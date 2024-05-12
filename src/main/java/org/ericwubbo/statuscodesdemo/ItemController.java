@@ -1,6 +1,7 @@
 package org.ericwubbo.statuscodesdemo;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +19,9 @@ public class ItemController {
     }
 
     @GetMapping("{id}")
-    public Optional<Item> getById(@PathVariable long id) {
-        return itemRepository.findById(id);
+    public ResponseEntity<Item> getById(@PathVariable long id) {
+        Optional<Item> possiblyFoundItem = itemRepository.findById(id);
+        if (possiblyFoundItem.isPresent()) return ResponseEntity.ok(possiblyFoundItem.get());
+        return ResponseEntity.notFound().build();
     }
 }
