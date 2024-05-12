@@ -6,8 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
-
 @RestController
 @RequiredArgsConstructor
 public class ItemController {
@@ -20,8 +18,6 @@ public class ItemController {
 
     @GetMapping("{id}")
     public ResponseEntity<Item> getById(@PathVariable long id) {
-        Optional<Item> possiblyFoundItem = itemRepository.findById(id);
-        if (possiblyFoundItem.isPresent()) return ResponseEntity.ok(possiblyFoundItem.get());
-        return ResponseEntity.notFound().build();
+        return itemRepository.findById(id).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
