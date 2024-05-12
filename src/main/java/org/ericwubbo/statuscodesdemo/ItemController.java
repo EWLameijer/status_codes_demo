@@ -58,4 +58,17 @@ public class ItemController {
         itemRepository.save(item);
         return ResponseEntity.ok(item);
     }
+
+    @PutMapping
+    public ResponseEntity<?> update(@RequestBody Item updatedItem) {
+        if (updatedItem.getId() == null) return ResponseEntity.badRequest().build();
+        Optional<Item> possibleItem = itemRepository.findById(updatedItem.getId());
+        if (possibleItem.isEmpty()) return ResponseEntity.notFound().build();
+        if (updatedItem.getName() == null ||
+                updatedItem.getName().isBlank() ||
+                updatedItem.getPrice() == null ||
+                updatedItem.getPrice().compareTo(BigDecimal.ZERO) <= 0) return ResponseEntity.badRequest().build();
+        itemRepository.save(updatedItem);
+        return ResponseEntity.noContent().build();
+    }
 }
