@@ -30,4 +30,11 @@ public class ItemController {
         var location = uriComponentsBuilder.path("{id}").buildAndExpand(item.getId()).toUri();
         return ResponseEntity.created(location).body(item);
     }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        if (!itemRepository.existsById(id)) return ResponseEntity.notFound().build();
+        itemRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }
