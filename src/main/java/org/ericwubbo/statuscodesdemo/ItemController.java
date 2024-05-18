@@ -33,7 +33,7 @@ public class ItemController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         if (!itemRepository.existsById(id)) return ResponseEntity.notFound().build();
         itemRepository.deleteById(id);
         return ResponseEntity.noContent().build();
