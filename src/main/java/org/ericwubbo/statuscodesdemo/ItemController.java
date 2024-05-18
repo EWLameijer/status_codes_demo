@@ -60,7 +60,7 @@ public class ItemController {
     }
 
     @PutMapping
-    public ResponseEntity<?> update(@RequestBody Item updatedItem) {
+    public ResponseEntity<Void> update(@RequestBody Item updatedItem) {
         if (updatedItem.getId() == null) return ResponseEntity.badRequest().build();
         Optional<Item> possibleItem = itemRepository.findById(updatedItem.getId());
         if (possibleItem.isEmpty()) return ResponseEntity.notFound().build();
